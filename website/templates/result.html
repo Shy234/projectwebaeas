@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}AEAS | Result{% endblock %}
+
+{% block content %}
+<body class="body-result">
+    <div class="content-box" style="padding-bottom: 20px;">
+        <h10 style="padding-bottom: 10px;">My Folder</h10>
+        <ul class="folder-list">
+            {% for folder in folders %}
+                <a href="./result-folder/{{ folder.id }}">
+                    <li class="folder-item">
+                        <img src="/static/folder.png" alt="Folder Icon" class="folder-icon">
+                        <span class="folder-name" onclick="toggleFileForm('{{ folder.id }}')" style="font-size: 14px;">{{ folder.name|upper }}</span>
+                        <div id="files-{{ folder.id }}" class="files-container" style="display: none;"></div> 
+                    </li>
+                </a>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+{% endblock %}

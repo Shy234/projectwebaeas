@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}AEAS | Login{% endblock %}
+{% block content %}
+  <div class="Column">
+    <div class="row">
+      <div class="col-md-9">
+        <h1 class="label mt-100" style="font-size: 100px; font-style: italic;">
+          <span style="color: black; text-shadow: 2px 2px 0px white;">A</span>utomated 
+          <span style="color: black; text-shadow: 2px 2px 0px white;">E</span>ssay 
+          <span style="color: black; text-shadow: 2px 2px 0px white;"><br>A</span>ssessment
+        </h1>
+        
+      </div>
+    </div>
+    <form class="col-md-4" method="POST" onsubmit="return onSubmitForm()">
+      <div align="center">
+        <img src="static/logo.png" alt="Logo" height="70" class="blink-logo"/>
+      </div>
+      <div align="center">
+        <label><h3><strong>LOGIN</strong></h3></label>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="Enter Email Address"
+          value="{{ request.form.email }}"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          placeholder="Enter Password"
+        />
+      </div>
+     
+      <div align="center"><strong>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <div class="text-center" style="padding-top: 10px;">
+          <p style="font-size: small;">
+            You don't have an account? <a href="/sign-up">Register here</a>
+          </p>
+        </div></strong>
+      </div>
+      
+      
+    </form>
+  </div>
+
+  <script>
+    function onSubmitForm() {
+      localStorage.setItem('loginEmail', document.getElementById('email').value);
+      return true;
+    }
+
+    window.onload = function() {
+      var storedLoginEmail = localStorage.getItem('loginEmail');
+
+      if (storedLoginEmail) {
+        document.getElementById('email').value = storedLoginEmail;
+      }
+
+    };
+  </script>
+{% endblock %}

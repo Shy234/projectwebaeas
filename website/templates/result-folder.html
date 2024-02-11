@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}AES | Result{% endblock %}
+
+{% block content %}
+<body class="body-result">
+    
+
+    <main>
+        <h1 style="margin-top: 20px; margin-bottom: 20px; text-align: center;"><strong>{{ folder.name|upper }} FOLDER</strong></h1>
+
+        <table class="table table-striped table-bordered table-hover table-responsive">
+            <thead class="thead-dark">
+                <tr>
+                    <th style="background-color: #333; width: 200px; text-align: center;">Student Number</th>
+                    <th style="background-color: #333; width: 530px; text-align: center;">Question</th>
+                    <th style="background-color: #333; width: 217px; text-align: center;">File Name</th>
+                    <th style="background-color: #333; width: 160px; text-align: center;">System Score</th>
+                </tr>
+            </thead>
+            <tbody> 
+                {% for file in files %}
+                <tr>
+                    <td style="background-color: white;width: 200px; text-align: center;">{{file.student_number}}</td>
+                    <td style="background-color: white;">{{file.question}}</td>
+                    <td style="background-color: white; text-align: center;">{{file.name}}</td>
+                    <td style="background-color: white; width: 160px; color: {% if file.system_score >= 3.0 %}green{% else %}red{% endif %}; text-align: center;"><strong>{{file.system_score}}</strong></td>
+                </tr>
+                
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </main>
+    
+</body>
+{% endblock %}

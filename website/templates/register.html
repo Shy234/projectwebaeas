@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}AEAS | Sign Up{% endblock %}
+{% block content %}
+  <div class="Column">
+    <div class="row">
+      <h1 class="label mt-100" style="font-size: 100px; font-style: italic;">
+        <span style="color: black; text-shadow: 2px 2px 0px white;">A</span>utomated 
+        <span style="color: black; text-shadow: 2px 2px 0px white;">E</span>ssay 
+        <span style="color: black; text-shadow: 2px 2px 0px white;"><br>A</span>ssessment
+      </h1>
+    </div>
+    <form class="col-md-4" method="POST" onsubmit="return onSubmitForm()">
+      <div align="center">
+        <img src="static/logo.png" alt="Logo" height="70" class="blink-logo"/>
+      </div>
+      <div align="center">
+        <label><h3><strong>SIGN UP</strong></h3></label>
+      </div>
+      <div class="form-group mt-1">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="Enter Email Address"
+          value="{{ request.form.email }}"
+        />
+      </div>
+      <div class="form-group ">
+        <label for="firstName">Full Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          name="firstName"
+          placeholder="Enter Full Name"
+          value="{{ request.form.firstName }}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password1">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password1"
+          name="password1"
+          placeholder="Enter password"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password2">Confirm Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password2"
+          name="password2"
+          placeholder="Confirm Password"
+        />
+      </div>
+      <br />
+      <div align="center">
+        <button type="submit" class="btn btn-primary">Sign In</button>
+        <div class="text-center" style="padding-top: 10px;">
+          <p style="font-size: small;">
+            Already have an account? <a href="/login">Login here</a>
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function onSubmitForm() {
+      localStorage.setItem('signupEmail', document.getElementById('email').value);
+      localStorage.setItem('signupFirstName', document.getElementById('firstName').value);
+      return true;
+    }
+    window.onload = function() {
+      var storedEmail = localStorage.getItem('signupEmail');
+      var storedFirstName = localStorage.getItem('signupFirstName');
+
+      if (storedEmail) {
+        document.getElementById('email').value = storedEmail;
+      }
+      if (storedFirstName) {
+        document.getElementById('firstName').value = storedFirstName;
+      }
+    };
+  </script>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}AEAS | Analysis{% endblock %}
+
+{% block content %}
+<body class="body-result">
+    <div class="content-box">
+        <h10 style="font-size: 30px;">Student Number</h10>
+        <select id="folderDropdown" style="font-size: 30px;">
+            
+        <option value="1">Student 1</option>
+        <option value="2">Student 2</option>
+        <option value="3">Student 3</option>
+        </select>
+    </div>
+
+    <div class="content-box" style="padding-bottom: 100px; padding-top: 100px; padding-left: 100px; padding-right: 100px;">
+        <canvas id="radarChart" width="100" height="100"></canvas>
+        <ul class="folder-list">
+            {% for folder in folders %}
+                <a href="./result-folder/{{ folder.id }}">
+                    <li class="folder-item">
+                        <img src="/static/folder.png" alt="Folder Icon" class="folder-icon">
+                        <span class="folder-name" onclick="toggleFileForm('{{ folder.id }}')" style="font-size: 20px;">{{ folder.name|upper }}</span>
+                        <div id="files-{{ folder.id }}" class="files-container" style="display: none;"></div> 
+                    </li>
+                </a>
+            {% endfor %}
+        </ul>
+    </div>
+
+   
+</body>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    var data = {
+        labels: ['CLARITY','ORGANIZATION','RELEVENCE','CREATIVITY','GRAMMAR', 'FOCUS ON DETAILS'],
+        datasets: [{
+            label: 'STUDENT ANALYSIS',
+            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+            borderWidth: 1,
+            data: [1, 2, 3, 4, 5, 1] 
+        }]
+    };
+
+    var options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    max: 5 
+                }
+            }]
+        }
+    };
+
+
+
+    var ctx = document.getElementById('radarChart').getContext('2d');
+
+    var barChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+    });
+</script>
+{% endblock %}
