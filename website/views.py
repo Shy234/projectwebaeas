@@ -5,7 +5,6 @@ from .models import Folder, File
 from . import db
 from textblob import TextBlob 
 import spacy
-from flask import session
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.linear_model import LinearRegression
@@ -360,6 +359,7 @@ def delete_file(folder_id, file_id):
 @views.route('/assess', methods=['POST'])
 @login_required
 def assess():
+    user_folders = Folder.query.filter_by(user_id=current_user.id).all()
     if request.method == "POST":
         essay_file = request.files.get("essay")
         selected_criteria = request.form.getlist("criteria")
@@ -374,25 +374,22 @@ def assess():
             if essay_file:
                 essay_text = essay_file.read().decode("utf-8", errors="ignore")
                 assessment_results = assess_essay(essay_text, selected_criteria)
-                session['assessment_results'] = assessment_results
-                return render_template("home.html", results=assessment_results, user=current_user,
+                return render_template("home.html", folders=user_folders, results=assessment_results, user=current_user,
                                        question=question, student_number=student_number,
                                        uploaded_file_name=uploaded_file_name, system_score=assessment_results["Overall Average"])
 
             else:
                 assessment_results = {}
-                session['assessment_results'] = assessment_results
-                return render_template("home.html", results=assessment_results, user=current_user,
+                return render_template("home.html", folders=user_folders, results=assessment_results, user=current_user,
                                        question=question, student_number=student_number,
                                        uploaded_file_name=uploaded_file_name)
 
         except Exception as e:
             print(f"Error in assess_essay: {str(e)}")
             flash('Error occurred during assessment.', 'error')
-            return redirect(url_for('views.home'))
-
-    else:
-        return redirect(url_for('views.home'))
+            return redirect(url_for('views.home', folders=user_folders, user=current_user,
+                                    question=question, student_number=student_number,
+                                    uploaded_file_name=uploaded_file_name))
 
 
 @views.route('/analysis')
