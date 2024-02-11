@@ -17,6 +17,7 @@ from gensim.models import KeyedVectors
 import pandas as pd
 import re
 from fpdf import FPDF
+from flask import session
 
 
 views = Blueprint('views', __name__)
@@ -276,6 +277,9 @@ def assess_essay(essay_text, selected_criteria):
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
+
+# Inside the home view function
+    user_folders = session.get('user_folders', [])
     user_folders = Folder.query.filter_by(user_id=current_user.id).all()
     question = request.form.get('additionalQuestion1', '')
     student_number = request.form.get('studentNumber', '')
@@ -387,6 +391,7 @@ def assess():
         except Exception as e:
             print(f"Error in assess_essay: {str(e)}")
             flash('Error occurred during assessment.', 'error')
+            session['user_folders'] = [folder.name for folder in user_folders]
             return redirect(url_for('views.home', folders=user_folders, user=current_user,
                                     question=question, student_number=student_number,
                                     uploaded_file_name=uploaded_file_name))
