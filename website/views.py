@@ -278,7 +278,6 @@ def assess_essay(essay_text, selected_criteria):
 @login_required
 def home():
 
-# Inside the home view function
     user_folders = session.get('user_folders', [])
     user_folders = Folder.query.filter_by(user_id=current_user.id).all()
     question = request.form.get('additionalQuestion1', '')
